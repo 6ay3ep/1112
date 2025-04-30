@@ -12,8 +12,6 @@ public class UserDaoJDBCImpl implements UserDao {
     public UserDaoJDBCImpl() {
 
     }
-    private final String REMOVE_USER_BY_ID = "DELETE FROM users WHERE id = ?";
-    private final String CLEAN_USERS_TABLE = "TRUNCATE TABLE users";
     Connection connection = Util.getConnection();
 
     public void createUsersTable() {
@@ -30,7 +28,6 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("createUsersTableWork");
     }
 
     public void dropUsersTable() {
@@ -40,7 +37,6 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("dropUsersTableWork");
     }
 
     public void saveUser(String name, String lastName, byte age) {
@@ -55,17 +51,16 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             throw new RuntimeException("Error saving user", e);
         }
-        System.out.println("saveUserWork");
     }
 
     public void removeUserById(long id) {
+        final String REMOVE_USER_BY_ID = "DELETE FROM users WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(REMOVE_USER_BY_ID)) {
             stmt.setLong(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Error removing user by id", e);
         }
-        System.out.println("removeUserByIdWork");
     }
 
     public List<User> getAllUsers() {
@@ -86,17 +81,16 @@ public class UserDaoJDBCImpl implements UserDao {
             System.err.println("getAllUsersUnWork" + e.getMessage());
             e.printStackTrace();
         }
-        System.out.println("getAllUsersWork");
         return users;
 
     }
 
     public void cleanUsersTable() {
+        final String CLEAN_USERS_TABLE = "TRUNCATE TABLE users";
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(CLEAN_USERS_TABLE);
         } catch (SQLException e) {
             throw new RuntimeException("Error cleaning users table", e);
         }
-        System.out.println("cleanUsersTableWork");
     }
 }

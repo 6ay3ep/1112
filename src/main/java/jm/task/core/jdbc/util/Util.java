@@ -12,8 +12,6 @@ public class Util {
         Connection connection = null;
         try  {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            System.out.println("Connected to database");
-
 
         } catch (SQLException e) {
             throw new RuntimeException("Ошибка подкючения");
